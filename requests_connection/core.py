@@ -24,13 +24,19 @@ class HTTPAdapter(_HTTPAdapter):
         )
         return self
 
-    def init_poolmanager(self, *args, **kwargs):
+    def init_poolmanager(self, connections, maxsize, block=False, **pool_kwargs):
         if self.connection is not None:
             logger.debug("get pool manager")
-            self.poolmanager = PoolManager(self.connection, *args, **kwargs)
+            self.poolmanager = PoolManager(
+                connection=self.connection, num_pools=connections,
+                maxsize=maxsize, block=block, strict=True, **pool_kwargs,
+            )
         else:
-            logger.info("connection not mounted")
-            super(HTTPAdapter, self).init_poolmanager(*args, **kwargs)
+            logger.debug("connection not mounted")
+            super(HTTPAdapter, self).init_poolmanager(
+                connections=connections, maxsize=maxsize,
+                block=block, **pool_kwargs,
+            )
 
 
 class Session(_Session):

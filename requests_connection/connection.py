@@ -18,17 +18,17 @@ class SocketHTTPConnection(HTTPConnection):
 
 
 class Connection(object):
-    @classmethod
+    @staticmethod
     def http(host, port=80, **kwargs):
         logger.debug('get http connection')
         return HTTPConnection(host=host, port=port, **kwargs)
 
-    @classmethod
+    @staticmethod
     def https(host, port=443, **kwargs):
         logger.debug('get https connection')
         return HTTPSConnection(host=host, port=port, **kwargs)
 
-    @classmethod
+    @staticmethod
     def socket(host, port=80, **kwargs):
         logger.debug('get socket http connection')
         socket_conn = socket.create_connection((host, port), **kwargs)

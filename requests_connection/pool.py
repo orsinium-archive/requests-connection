@@ -11,7 +11,7 @@ class ConnectionPoolMixin(object):
         super(ConnectionPoolMixin, self).__init__(*args, **kwargs)
 
     def _new_conn(self):
-        logger.debug('get new connection')
+        logger.debug('use existing connection for request')
         self.num_connections += 1
         return self.connection
 
