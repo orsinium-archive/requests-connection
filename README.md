@@ -5,7 +5,7 @@ Split requests via [requests](https://github.com/requests/requests) onto two sta
 1. Connect to server (establish TCP and TLS connections).
 2. Make HTTP request.
 
-It is very useful for all cases when you can prepare your request to server and later must make requests very fast. For example, high frequency trading.
+It is very useful for all cases when you can prepare your request to server and later you must send request as fast as possible. For example, high frequency trading.
 
 
 ## Usage
