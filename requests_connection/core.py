@@ -5,17 +5,12 @@ from .pool import PoolManager
 
 
 class HTTPAdapter(_HTTPAdapter):
-    def mount(self, connection, host, port):
+    def mount(self, connection):
         self.connection = connection
-        self.host = host
-        self.port = port
         return self
 
-    def init_poolmanager(self, connections, maxsize):
-        self.poolmanager = PoolManager(
-            num_pools=connections,
-            maxsize=maxsize,
-        )
+    def init_poolmanager(self, *args, **kwargs):
+        self.poolmanager = PoolManager(*args, **kwargs)
 
 
 class Session(_Session):

@@ -25,11 +25,11 @@ class PoolManager(urllib3.PoolManager):
         self.port = port
         super(PoolManager, self).__init__(**kwargs)
 
-    def _new_pool(self, scheme, host, port):
+    def _new_pool(self, scheme, host, port, request_context=None):
         # Important!
         if host == self.host and port == self.port:
             if scheme == 'http':
                 return HTTPConnectionPool(host, port, **self.connection_pool_kw)
             if scheme == 'https':
                 return HTTPSConnectionPool(host, port, **self.connection_pool_kw)
-        return super(PoolManager, self)._new_pool(self, scheme, host, port)
+        return super(PoolManager, self)._new_pool(scheme, host, port, request_context=request_context)
