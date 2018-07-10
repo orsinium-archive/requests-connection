@@ -54,3 +54,20 @@ response = session.get('https://google.com/')
 * `Connection.http` -- returns [http.client.HTTPConnection](https://docs.python.org/3/library/http.client.html#http.client.HTTPConnection).
 * `Connection.https` -- returns [http.client.HTTPSConnection](https://docs.python.org/3/library/http.client.html#http.client.HTTPSConnection)
 * `Connection.socket` -- also returns [http.client.HTTPConnection](https://docs.python.org/3/library/http.client.html#http.client.HTTPConnection), but you can setup socket params.
+
+
+## Benchmarks
+
+Results:
+
+```
+Requests: 0.362 ± 0.2106
+Patched:  0.229 ± 0.03791
+```
+
+Running:
+
+```bash
+pipenv install --dev
+pipenv run python benchmark.py
+```
