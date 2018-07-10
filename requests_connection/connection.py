@@ -1,3 +1,4 @@
+from functools import partial
 import logging
 import socket
 try:
@@ -21,15 +22,24 @@ class Connection(object):
     @staticmethod
     def http(host, port=80, **kwargs):
         logger.debug('get http connection')
-        return HTTPConnection(host=host, port=port, **kwargs)
+        factory = partial(HTTPConnection, host=host, port=port, **kwargs)
+        connection = factory()
+        connection.factory = factory
+        return connection
 
     @staticmethod
     def https(host, port=443, **kwargs):
         logger.debug('get https connection')
-        return HTTPSConnection(host=host, port=port, **kwargs)
+        factory = partial(HTTPSConnection, host=host, port=port, **kwargs)
+        connection = factory()
+        connection.factory = factory
+        return connection
 
     @staticmethod
     def socket(host, port=80, **kwargs):
         logger.debug('get socket http connection')
         socket_conn = socket.create_connection((host, port), **kwargs)
-        return SocketHTTPConnection(host=host, port=port, socket_conn=socket_conn)
+        factory = partial(SocketHTTPConnection, host=host, port=port, socket_conn=socket_conn)
+        connection = factory()
+        connection.factory = factory
+        return connection

@@ -44,8 +44,20 @@ class Session(_Session):
         super(Session, self).__init__()
         self.connect(connection)
 
-    def connect(self, connection):
+    def connect(self, connection=None):
         logger.debug("mount connection to session")
+
+        # create connection via factory
+        if connection is None:
+            if self.connection is None:
+                raise ConnectionError("no existing connection")
+            if not hasattr(self.connection, 'factory'):
+                raise ConnectionError("can not recreate connection: factory not found")
+            logger.debug("make new connection via factory")
+            factory = connection.factory
+            connection = factory()
+            connection.factory = factory
+
         self.connection = connection
         self.mount('https://', HTTPAdapter().mount(connection))
         self.mount('http://', HTTPAdapter().mount(connection))
@@ -56,8 +68,7 @@ class Session(_Session):
         try:
             return super(Session, self).send(*args, **kwargs)
         except ConnectionError:
-            logger.warning("connection failed")
-
-        # try to reconnect and repeat request
-        self.connect(self.connection)
-        return super(Session, self).send(*args, **kwargs)
+            # try to reconnect and repeat request
+            logger.warning("connection failed, try to reconnect")
+            self.connect()
+            return super(Session, self).send(*args, **kwargs)

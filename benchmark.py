@@ -12,7 +12,6 @@ for _ in range(200):
             ),
             stmt=(
                 "sess.get('https://httpbin.org/get')\n"
-                "sess.post('https://httpbin.org/post')\n"
             ),
             number=1,
         ))
@@ -25,7 +24,6 @@ for _ in range(200):
                 ),
             stmt=(
                 "sess.get('https://httpbin.org/get')\n"
-                "sess.post('https://httpbin.org/post')\n"
             ),
             number=1,
         ))
